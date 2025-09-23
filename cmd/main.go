@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -13,13 +14,15 @@ import (
 )
 
 var (
-	up, down, create bool
+	up, down, create, redo, status bool
 )
 
 func init() {
 	flag.BoolVar(&up, "up", false, "up migrations")
 	flag.BoolVar(&down, "down", false, "down migrations")
 	flag.BoolVar(&create, "create", false, "create file migration")
+	flag.BoolVar(&redo, "redo", false, "repeat the last migration")
+	flag.BoolVar(&status, "status", false, "return migrations status")
 }
 
 func main() {
@@ -71,18 +74,32 @@ func main() {
 	// Выполнение команд утилиты
 	if create {
 		if err := management.CreateFileMigration(); err != nil {
+			log.Fatalf("failed to run create migrations: %v", err)
 		}
 	}
 	if up {
 		if err := management.UpMigrations(); err != nil {
-			log.Fatalf("failed to run migrations: %v", err)
+			log.Fatalf("failed to run up migrations: %v", err)
 		}
 	}
 
 	if down {
 		if err := management.DownMigrations(); err != nil {
-			log.Fatalf("failed to run migrations: %v", err)
+			log.Fatalf("failed to run down migrations: %v", err)
 		}
 	}
-
+	if redo {
+		if err := management.RedoMigrations(); err != nil {
+			log.Fatalf("failed to run redo migrations: %v", err)
+		}
+	}
+	if status {
+		statusMigrate, err := management.StatusMigrations()
+		if err != nil {
+			log.Fatalf("failed to run status migrations: %v", err)
+		}
+		for _, r := range statusMigrate {
+			fmt.Println(r)
+		}
+	}
 }
