@@ -1,8 +1,9 @@
 package mng
 
 import (
-	"fmt"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func (m *Management) UpMigrations() error {
@@ -11,10 +12,10 @@ func (m *Management) UpMigrations() error {
 		idVersion := strings.Split(strings.Split(file, "/")[1], "_")[0]
 		approve, err := m.CheckMigrateVersion("UP", idVersion)
 		if err != nil {
-			return fmt.Errorf("failed check migrate version: %w", err)
+			log.Fatalf("failed check migrate version: %v", err)
 		}
 		if !approve {
-			fmt.Printf("not migrate\n")
+			log.Info("not migrate\n")
 			return nil
 		}
 		// Получить данные миграции
@@ -24,12 +25,12 @@ func (m *Management) UpMigrations() error {
 		}
 		// Выполнить миграцию
 		if err := executeMigration(m.Cfg.Ctx, m.Cfg.Db, file, dataMigrate.Up); err != nil {
-			return fmt.Errorf("migration failed for %s: %w", file, err)
+			log.Fatalf("migration failed for %s: %v", file, err)
 		}
 		// зафиксировать версию
 		err = m.CommitMigrateVersion(true, idVersion)
 		if err != nil {
-			return fmt.Errorf("failed commit migrate version: %w", err)
+			log.Fatalf("failed commit migrate version: %v", err)
 		}
 	}
 	return nil

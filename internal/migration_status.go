@@ -7,12 +7,14 @@ import (
 	"fmt"
 	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func (m *Management) GetStatusMigrations(idVersion string) (string, error) {
 	rows, err := m.Cfg.Db.Query(context.Background(), "SELECT version_id,is_applied,tstamp from db_version where version_id=$1 ORDER BY tstamp DESC LIMIT 1;", idVersion)
 	if err != nil {
-		return "", fmt.Errorf("failed to query data: %w", err)
+		log.Fatalf("failed to query data: %v", err)
 	}
 	defer rows.Close()
 
@@ -21,11 +23,11 @@ func (m *Management) GetStatusMigrations(idVersion string) (string, error) {
 	var tstamp time.Time
 	for rows.Next() {
 		if err := rows.Scan(&versionId, &isApplied, &tstamp); err != nil && !errors.Is(err, sql.ErrNoRows) {
-			return "", fmt.Errorf("failed to scan row: %w", err)
+			log.Fatalf("failed to scan row: %v", err)
 		}
 	}
 	if err := rows.Err(); err != nil {
-		return "", fmt.Errorf("error during rows iteration: %w", err)
+		log.Fatalf("error during rows iteration: %v", err)
 	}
 	res := fmt.Sprintf("\nversion_id: %s\nis_applied: %v\ntstamp: %v\n=========================\n", versionId, isApplied, tstamp)
 	return res, nil
@@ -38,7 +40,7 @@ func (m *Management) StatusMigrations() ([]string, error) {
 		idVersion := strings.Split(strings.Split(file, "/")[1], "_")[0]
 		res, err := m.GetStatusMigrations(idVersion)
 		if err != nil {
-			return nil, fmt.Errorf("failed check migrate version: %w", err)
+			log.Fatalf("failed check migrate version: %v", err)
 		}
 		resMigratesStatus = append(resMigratesStatus, res)
 	}

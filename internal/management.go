@@ -2,10 +2,11 @@ package mng
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"os"
 	"path/filepath"
+	"strings"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/jackc/pgx/v5"
 	"gopkg.in/yaml.v2"
@@ -15,10 +16,10 @@ func executeMigration(ctx context.Context, db *pgx.Conn, fileName, dataMigrate s
 	// Выполнение SQL-запроса
 	_, err := db.Exec(ctx, dataMigrate)
 	if err != nil {
-		return fmt.Errorf("failed to execute migration %s: %w", dataMigrate, err)
+		log.Fatalf("failed to execute migration %s: %v", dataMigrate, err)
 	}
 
-	fmt.Printf("migrate execute: %s\n", filepath.Base(fileName))
+	log.Info("migrate execute: ", filepath.Base(strings.Split(fileName, ".")[0]))
 
 	return nil
 }
@@ -27,7 +28,7 @@ func readFile(filePath string) (*Migration, error) {
 	// Чтение файла
 	data, err := os.ReadFile(filePath)
 	if err != nil {
-		log.Fatalf("error: %v", err)
+		log.Fatalf("error read file: %v", err)
 	}
 
 	// Создаем переменную для хранения конфигурации
@@ -36,7 +37,7 @@ func readFile(filePath string) (*Migration, error) {
 	// Распарсиваем YAML в структуру
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
-		return nil, err
+		log.Fatalf("error unmarshal yaml file: %v", err)
 	}
 	return &config, nil
 }

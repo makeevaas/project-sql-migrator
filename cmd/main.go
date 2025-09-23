@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
-	"log"
 	"os"
 	"path/filepath"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/makeevaas/project/sql-migrator/cfg"
@@ -99,7 +99,7 @@ func main() {
 			log.Fatalf("failed to run status migrations: %v", err)
 		}
 		for _, r := range statusMigrate {
-			fmt.Println(r)
+			log.Info(r)
 		}
 	}
 }

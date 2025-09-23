@@ -4,8 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func (m *Management) CreateTableForMigrateVersion() error {
@@ -18,7 +19,7 @@ func (m *Management) CreateTableForMigrateVersion() error {
  );`
 	_, err := m.Cfg.Db.Exec(context.Background(), createTableReq)
 	if err != nil {
-		return fmt.Errorf("failed to create table db_version: %w", err)
+		log.Fatalf("failed to create table db_version: %v", err)
 	}
 	return nil
 }
@@ -27,7 +28,7 @@ func (m *Management) CommitMigrateVersion(applied bool, idVersion string) error 
 	insertDataReq := `INSERT INTO db_version (version_id, is_applied) VALUES ($1, $2)`
 	_, err := m.Cfg.Db.Exec(context.Background(), insertDataReq, idVersion, applied)
 	if err != nil {
-		return fmt.Errorf("failed to insert data: %w", err)
+		log.Fatalf("failed to insert data: %v", err)
 	}
 	return nil
 }
@@ -35,12 +36,12 @@ func (m *Management) CommitMigrateVersion(applied bool, idVersion string) error 
 func (m *Management) CheckMigrateVersion(task, idVersion string) (bool, error) {
 	err := m.CreateTableForMigrateVersion()
 	if err != nil {
-		return false, err
+		log.Fatal(err)
 	}
 	var approve bool
 	rows, err := m.Cfg.Db.Query(context.Background(), "SELECT version_id,is_applied,tstamp from db_version where version_id=$1 ORDER BY tstamp DESC LIMIT 1;", idVersion)
 	if err != nil {
-		return false, fmt.Errorf("failed to query data: %w", err)
+		log.Fatalf("failed to query data: %v", err)
 	}
 	defer rows.Close()
 
@@ -49,11 +50,11 @@ func (m *Management) CheckMigrateVersion(task, idVersion string) (bool, error) {
 	var tstamp time.Time
 	for rows.Next() {
 		if err := rows.Scan(&versionId, &isApplied, &tstamp); err != nil && !errors.Is(err, sql.ErrNoRows) {
-			return false, fmt.Errorf("failed to scan row: %w", err)
+			log.Fatalf("failed to scan row: %v", err)
 		}
 	}
 	if err := rows.Err(); err != nil {
-		return false, fmt.Errorf("error during rows iteration: %w", err)
+		log.Fatalf("error during rows iteration: %v", err)
 	}
 
 	switch task {

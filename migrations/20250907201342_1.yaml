@@ -2,4 +2,12 @@ UP: CREATE TABLE IF NOT EXISTS users1 (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100) UNIQUE NOT NULL);
+
+    CREATE TABLE IF NOT EXISTS users11 (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE NOT NULL);
+
+    INSERT INTO users11 (name, email) VALUES ('BOB','bob@mai.ru');
 DOWN: DROP TABLE IF EXISTS users1;
+      DROP TABLE IF EXISTS users11;
