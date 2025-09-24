@@ -3,12 +3,12 @@ package cfg
 import (
 	"context"
 
-	"github.com/jackc/pgx/v5"
+	"github.com/makeevaas/project/sql-migrator/pkg/db"
 )
 
 type Config struct {
 	Ctx            context.Context
-	Db             *pgx.Conn
+	DB             *db.DB
 	MigratePath    string
 	MigrationFiles []string
 }
