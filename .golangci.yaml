@@ -16,9 +16,9 @@ linters-settings:
           - "!$test"
         allow:
           - $gostd
-          - github.com/makeevaas/project/sql-migrator/internal
-          - github.com/makeevaas/project/sql-migrator/pkg/cfg
-          - github.com/makeevaas/project/sql-migrator/pkg/db
+          - github.com/makeevaas/project-sql-migrator/internal
+          - github.com/makeevaas/project-sql-migrator/pkg/cfg
+          - github.com/makeevaas/project-sql-migrator/pkg/db
           - github.com/sirupsen/logrus
           - github.com/jackc/pgx/v5   
           - gopkg.in/yaml.v2                
@@ -31,9 +31,9 @@ linters-settings:
           - github.com/sirupsen/logrus
           - gopkg.in/yaml.v2
           - github.com/jackc/pgx/v5           
-          - github.com/makeevaas/project/sql-migrator/pkg/cfg
-          - github.com/makeevaas/project/sql-migrator/pkg/db
-          - github.com/makeevaas/project/sql-migrator/internal          
+          - github.com/makeevaas/project-sql-migrator/pkg/cfg
+          - github.com/makeevaas/project-sql-migrator/pkg/db
+          - github.com/makeevaas/project-sql-migrator/internal          
       Db:
         files:
           - $all
@@ -43,9 +43,9 @@ linters-settings:
           - github.com/jackc/pgx/v5 
           - github.com/sirupsen/logrus
           - gopkg.in/yaml.v2                    
-          - github.com/makeevaas/project/sql-migrator/internal          
-          - github.com/makeevaas/project/sql-migrator/pkg/cfg
-          - github.com/makeevaas/project/sql-migrator/pkg/db           
+          - github.com/makeevaas/project-sql-migrator/internal          
+          - github.com/makeevaas/project-sql-migrator/pkg/cfg
+          - github.com/makeevaas/project-sql-migrator/pkg/db           
       Cfg:
         files:
           - $all
@@ -53,9 +53,9 @@ linters-settings:
         allow:
           - $gostd
           - github.com/sirupsen/logrus          
-          - github.com/makeevaas/project/sql-migrator/internal          
-          - github.com/makeevaas/project/sql-migrator/pkg/cfg          
-          - github.com/makeevaas/project/sql-migrator/pkg/db 
+          - github.com/makeevaas/project-sql-migrator/internal          
+          - github.com/makeevaas/project-sql-migrator/pkg/cfg          
+          - github.com/makeevaas/project-sql-migrator/pkg/db 
           - github.com/jackc/pgx/v5  
           - gopkg.in/yaml.v2           
       Test:
@@ -64,9 +64,9 @@ linters-settings:
         allow:
           - $gostd
           - github.com/stretchr/testify
-          - github.com/makeevaas/project/sql-migrator/pkg/cfg     
-          - github.com/makeevaas/project/sql-migrator/internal                
-          - github.com/makeevaas/project/sql-migrator/pkg/db      
+          - github.com/makeevaas/project-sql-migrator/pkg/cfg     
+          - github.com/makeevaas/project-sql-migrator/internal                
+          - github.com/makeevaas/project-sql-migrator/pkg/db      
 
 issues:
   exclude-rules:
