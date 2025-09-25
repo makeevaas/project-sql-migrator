@@ -21,6 +21,7 @@
     - просмотр данных через консоль
         - docker exec -it ($containerID)  psql -U postgres -w main_db
 - Сборка утилиты
+    - make build
 - Необходимые переменные среды для работы приложения:
     - DB_CONNECTION_PATH - dsn для подключения к БД
         - export DB_CONNECTION_PATH="postgres://postgres:pwd@localhost:5432/main_db?sslmode=disable"
