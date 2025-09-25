@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/makeevaas/project/sql-migrator/pkg/db"
+	"github.com/makeevaas/project-sql-migrator/pkg/db"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )

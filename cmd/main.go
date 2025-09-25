@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	mng "github.com/makeevaas/project/sql-migrator/internal"
-	"github.com/makeevaas/project/sql-migrator/pkg/cfg"
-	"github.com/makeevaas/project/sql-migrator/pkg/db"
+	mng "github.com/makeevaas/project-sql-migrator/internal"
+	"github.com/makeevaas/project-sql-migrator/pkg/cfg"
+	"github.com/makeevaas/project-sql-migrator/pkg/db"
 	l "github.com/sirupsen/logrus"
 )
 

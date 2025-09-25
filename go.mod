@@ -1,4 +1,4 @@
-module github.com/makeevaas/project/sql-migrator
+module github.com/makeevaas/project-sql-migrator
 
 go 1.24.6
 

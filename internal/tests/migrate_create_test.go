@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	mng "github.com/makeevaas/project/sql-migrator/internal"
-	"github.com/makeevaas/project/sql-migrator/pkg/cfg"
+	mng "github.com/makeevaas/project-sql-migrator/internal"
+	"github.com/makeevaas/project-sql-migrator/pkg/cfg"
 )
 
 // TestAdd проверяет функцию Add.

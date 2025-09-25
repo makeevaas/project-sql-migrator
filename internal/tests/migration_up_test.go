@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	mng "github.com/makeevaas/project/sql-migrator/internal"
-	"github.com/makeevaas/project/sql-migrator/pkg/cfg"
-	dbPkg "github.com/makeevaas/project/sql-migrator/pkg/db"
+	mng "github.com/makeevaas/project-sql-migrator/internal"
+	"github.com/makeevaas/project-sql-migrator/pkg/cfg"
+	dbPkg "github.com/makeevaas/project-sql-migrator/pkg/db"
 )
 
 // TestAdd проверяет функцию Add.

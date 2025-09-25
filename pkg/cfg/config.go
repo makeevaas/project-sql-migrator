@@ -3,7 +3,7 @@ package cfg
 import (
 	"context"
 
-	"github.com/makeevaas/project/sql-migrator/pkg/db"
+	"github.com/makeevaas/project-sql-migrator/pkg/db"
 )
 
 type Config struct {

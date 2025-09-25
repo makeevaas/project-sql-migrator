@@ -1,6 +1,6 @@
 package mng
 
-import "github.com/makeevaas/project/sql-migrator/pkg/cfg"
+import "github.com/makeevaas/project-sql-migrator/pkg/cfg"
 
 type Migration struct {
 	Up   string `yaml:"up"`
