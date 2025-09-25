@@ -2,6 +2,7 @@ package mng
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -41,4 +42,11 @@ func readFile(filePath string) (*Migration, error) {
 		return nil, fmt.Errorf("error unmarshal yaml file: %w", err)
 	}
 	return &config, nil
+}
+
+func verifyDataInMigration(b []byte) error {
+	if len(b) == 0 {
+		return errors.New("empty migration")
+	}
+	return nil
 }

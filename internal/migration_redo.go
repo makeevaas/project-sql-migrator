@@ -24,6 +24,15 @@ func (m *Management) RedoMigrations() error {
 	if err != nil {
 		return fmt.Errorf("failed to get migration file data: %w", err)
 	}
+	// Проверить данные миграции
+	err = verifyDataInMigration([]byte(dataMigrate.Up))
+	if err != nil {
+		return nil
+	}
+	err = verifyDataInMigration([]byte(dataMigrate.Down))
+	if err != nil {
+		return nil
+	}
 	// Выполнить откат
 	if err := executeMigration(m.Cfg.Ctx, m.Cfg.DB, file, dataMigrate.Down); err != nil {
 		return fmt.Errorf("migration failed for %s: %w", file, err)

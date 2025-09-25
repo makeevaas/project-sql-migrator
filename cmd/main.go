@@ -69,25 +69,31 @@ func main() {
 
 	// Выполнение команд утилиты
 	if create {
-		if _, err := management.CreateFileMigration(); err != nil {
+		fileName, err := management.CreateFileMigration()
+		if err != nil {
 			l.Fatalf("failed to run create migrations: %v", err)
 		}
+		l.Info("Created migration file: ", fileName)
+		l.Info("Execution completed")
 	}
 	if up {
 		if err := management.UpMigrations(); err != nil {
 			l.Fatalf("failed to run up migrations: %v", err)
 		}
+		l.Info("Execution completed")
 	}
 
 	if down {
 		if err := management.DownMigrations(); err != nil {
 			l.Fatalf("failed to run down migrations: %v", err)
 		}
+		l.Info("Execution completed")
 	}
 	if redo {
 		if err := management.RedoMigrations(); err != nil {
 			l.Fatalf("failed to run redo migrations: %v", err)
 		}
+		l.Info("Execution completed")
 	}
 	if status {
 		statusMigrate, err := management.StatusMigrations()
@@ -97,5 +103,6 @@ func main() {
 		for _, r := range statusMigrate {
 			l.Info(r)
 		}
+		l.Info("Execution completed")
 	}
 }
