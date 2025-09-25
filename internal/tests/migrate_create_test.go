@@ -12,7 +12,7 @@ import (
 // TestAdd проверяет функцию Add.
 func TestCreateFileMigration(t *testing.T) {
 	m := &mng.Management{
-		Cfg: cfg.Config{Ctx: context.Background(), MigratePath: "../migrations"},
+		Cfg: cfg.Config{Ctx: context.Background(), MigratePath: "../../migrations"},
 	}
 	file, err := m.CreateFileMigration()
 	if err != nil {

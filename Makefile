@@ -55,4 +55,4 @@ migrate_status:
 .PHONY: test
 test:
 	@echo "Запуск тестов"
-	@go test -v	./internal
+	@go test -v	./internal/tests

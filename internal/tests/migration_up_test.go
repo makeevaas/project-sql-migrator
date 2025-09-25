@@ -24,7 +24,7 @@ up: CREATE TABLE IF NOT EXISTS users12 (
     email VARCHAR(100) UNIQUE NOT NULL);
 down: DROP TABLE IF EXISTS users12;
 `
-	f := "../migrations/20250907202020_test.yaml"
+	f := "../../migrations/20250907202020_test.yaml"
 	migrateNum := "20250907202020"
 
 	file, err := os.Create(f)
@@ -57,7 +57,7 @@ down: DROP TABLE IF EXISTS users12;
 		t.Fatalf("failed to connect to database: %v", err)
 	}
 
-	filesPath := "../migrations"
+	filesPath := "../../migrations"
 	filePath := filepath.Join(filesPath, "20250907202020_test.yaml")
 	migrateFiles := []string{filePath}
 	m := &mng.Management{
