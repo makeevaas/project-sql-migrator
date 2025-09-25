@@ -5,18 +5,13 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"path/filepath"
 	"strings"
 	"time"
 )
 
 func (m *Management) GetStatusMigrations(idVersion string) (string, error) {
-	getMigrateDataReq := `SELECT version_id,is_applied,tstamp 
-	from DB_version 
-	where version_id=$1 
-	ORDER BY tstamp 
-	DESC LIMIT 1;`
-
-	rows, err := m.Cfg.DB.Conn.Query(context.Background(), getMigrateDataReq, idVersion)
+	rows, err := m.Cfg.DB.Conn.Query(context.Background(), GetMigrateDataReq, idVersion)
 	if err != nil {
 		return "", fmt.Errorf("failed to query data: %w", err)
 	}
@@ -34,10 +29,12 @@ func (m *Management) GetStatusMigrations(idVersion string) (string, error) {
 		return "", fmt.Errorf("error during rows iteration: %w", err)
 	}
 
-	outputData := `\nversion_id: %s\n
-	is_applied: %v\n
-	tstamp: %v\n
-	=========================\n`
+	outputData := `
+	version_id: %s
+	is_applied: %v
+	tstamp: %v
+	=========================
+	`
 
 	res := fmt.Sprintf(outputData, versionID, isApplied, tstamp)
 	return res, nil
@@ -47,7 +44,8 @@ func (m *Management) StatusMigrations() ([]string, error) {
 	resMigratesStatus := []string{}
 	for _, file := range m.Cfg.MigrationFiles {
 		// проверить версию миграции
-		idVersion := strings.Split(strings.Split(file, "/")[1], "_")[0]
+		filename := filepath.Base(file)
+		idVersion := strings.Split(filename, "_")[0]
 		res, err := m.GetStatusMigrations(idVersion)
 		if err != nil {
 			return nil, fmt.Errorf("failed check migrate version: %w", err)

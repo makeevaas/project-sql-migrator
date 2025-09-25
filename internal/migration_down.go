@@ -2,20 +2,21 @@ package mng
 
 import (
 	"fmt"
+	"path/filepath"
 	"strings"
 )
 
 func (m *Management) DownMigrations() error {
 	for _, file := range m.Cfg.MigrationFiles {
 		// проверить версию миграции
-		idVersion := strings.Split(strings.Split(file, "/")[1], "_")[0]
-		approve, err := m.CheckMigrateVersion("DOWN", idVersion)
+		filename := filepath.Base(file)
+		idVersion := strings.Split(filename, "_")[0]
+		approve, err := m.CheckMigrateVersion("down", idVersion)
 		if err != nil {
 			return fmt.Errorf("failed check migrate version: %w", err)
 		}
 		if !approve {
-			fmt.Printf("not migrate\n")
-			return nil
+			continue
 		}
 		// Получить данные миграции
 		dataMigrate, err := readFile(file)

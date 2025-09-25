@@ -41,7 +41,7 @@ func main() {
 	if err != nil {
 		l.Fatalf("failed to connect to database: %v", err)
 	}
-
+	defer db.Conn.Close(ctx)
 	// файлы миграции в директории
 	files, err := os.ReadDir(migratePath)
 	if err != nil {

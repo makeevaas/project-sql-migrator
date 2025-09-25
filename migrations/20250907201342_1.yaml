@@ -1,4 +1,7 @@
-UP: CREATE TABLE IF NOT EXISTS users1 (
+# The SQL in the UP section is executed when applying a migration.
+# The SQL in the DOWN section is executed when rolling back a migration.
+
+up: CREATE TABLE IF NOT EXISTS users1 (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100) UNIQUE NOT NULL);
@@ -9,5 +12,5 @@ UP: CREATE TABLE IF NOT EXISTS users1 (
     email VARCHAR(100) UNIQUE NOT NULL);
 
     INSERT INTO users11 (name, email) VALUES ('BOB','bob@mai.ru');
-DOWN: DROP TABLE IF EXISTS users1;
+down: DROP TABLE IF EXISTS users1;
       DROP TABLE IF EXISTS users11;

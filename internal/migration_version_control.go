@@ -10,7 +10,7 @@ import (
 
 func (m *Management) CreateTableForMigrateVersion() error {
 	createTableReq := `
- CREATE TABLE IF NOT EXISTS DB_version (
+ CREATE TABLE IF NOT EXISTS db_version (
   id BIGSERIAL PRIMARY KEY,
   version_id VARCHAR NOT NULL,
   is_applied BOOL NOT NULL,
@@ -18,7 +18,7 @@ func (m *Management) CreateTableForMigrateVersion() error {
  );`
 	_, err := m.Cfg.DB.Conn.Exec(context.Background(), createTableReq)
 	if err != nil {
-		return fmt.Errorf("failed to create table DB_version: %w", err)
+		return fmt.Errorf("failed to create table db_version: %w", err)
 	}
 	return nil
 }
@@ -38,13 +38,8 @@ func (m *Management) CheckMigrateVersion(task, idVersion string) (bool, error) {
 		return false, fmt.Errorf("failed to create table db_version: %w", err)
 	}
 	var approve bool
-	getMigrateVersion := `SELECT version_id,is_applied,tstamp 
-	from DB_version 
-	where version_id=$1 
-	ORDER BY tstamp 
-	DESC LIMIT 1;`
 
-	rows, err := m.Cfg.DB.Conn.Query(context.Background(), getMigrateVersion, idVersion)
+	rows, err := m.Cfg.DB.Conn.Query(context.Background(), GetMigrateDataReq, idVersion)
 	if err != nil {
 		return false, fmt.Errorf("failed to query data: %w", err)
 	}
@@ -63,12 +58,12 @@ func (m *Management) CheckMigrateVersion(task, idVersion string) (bool, error) {
 	}
 
 	switch task {
-	case "UP":
+	case "up":
 		if errors.Is(err, sql.ErrNoRows) || !isApplied {
 			// накатить можно
 			approve = true
 		}
-	case "DOWN":
+	case "down":
 		if isApplied {
 			// откатить можно
 			approve = true

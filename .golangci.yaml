@@ -64,7 +64,9 @@ linters-settings:
         allow:
           - $gostd
           - github.com/stretchr/testify
-          - github.com/makeevaas/project/sql-migrator/pkg/cfg          
+          - github.com/makeevaas/project/sql-migrator/pkg/cfg     
+          - github.com/makeevaas/project/sql-migrator/internal                
+          - github.com/makeevaas/project/sql-migrator/pkg/db      
 
 issues:
   exclude-rules:

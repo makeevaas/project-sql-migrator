@@ -2,22 +2,21 @@ package mng
 
 import (
 	"fmt"
+	"path/filepath"
 	"strings"
-
-	log "github.com/sirupsen/logrus"
 )
 
 func (m *Management) RedoMigrations() error {
 	// получить последний файл миграции
 	file := m.Cfg.MigrationFiles[len(m.Cfg.MigrationFiles)-1]
 	// проверить версию миграции
-	idVersion := strings.Split(strings.Split(file, "/")[1], "_")[0]
-	approve, err := m.CheckMigrateVersion("DOWN", idVersion)
+	filename := filepath.Base(file)
+	idVersion := strings.Split(filename, "_")[0]
+	approve, err := m.CheckMigrateVersion("down", idVersion)
 	if err != nil {
 		return fmt.Errorf("failed check migrate version: %w", err)
 	}
 	if !approve {
-		log.Info("not migrate\n")
 		return nil
 	}
 	// Получить данные миграции

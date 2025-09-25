@@ -17,6 +17,5 @@ func Conn(ctx context.Context, dbConnPath string) (*DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
-	defer db.Close(ctx)
 	return &DB{Conn: db}, nil
 }
