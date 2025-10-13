@@ -9,7 +9,6 @@ import (
 	"github.com/makeevaas/project-sql-migrator/pkg/cfg"
 )
 
-// TestAdd проверяет функцию Add.
 func TestCreateFileMigration(t *testing.T) {
 	m := &mng.Management{
 		Cfg: cfg.Config{Ctx: context.Background(), MigratePath: "../../migrations"},

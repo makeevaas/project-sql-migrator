@@ -2,8 +2,6 @@ package mng
 
 import (
 	"context"
-	"database/sql"
-	"errors"
 	"fmt"
 	"path/filepath"
 	"strings"
@@ -21,12 +19,9 @@ func (m *Management) GetStatusMigrations(idVersion string) (string, error) {
 	var isApplied bool
 	var tstamp time.Time
 	for rows.Next() {
-		if err := rows.Scan(&versionID, &isApplied, &tstamp); err != nil && !errors.Is(err, sql.ErrNoRows) {
+		if err := rows.Scan(&versionID, &isApplied, &tstamp); err != nil {
 			return "", fmt.Errorf("failed to scan row: %w", err)
 		}
-	}
-	if err := rows.Err(); err != nil {
-		return "", fmt.Errorf("error during rows iteration: %w", err)
 	}
 
 	outputData := `
@@ -35,7 +30,9 @@ func (m *Management) GetStatusMigrations(idVersion string) (string, error) {
 	tstamp: %v
 	=========================
 	`
-
+	if versionID == "" {
+		return fmt.Sprintf("migration is not registered: %s", idVersion), nil
+	}
 	res := fmt.Sprintf(outputData, versionID, isApplied, tstamp)
 	return res, nil
 }

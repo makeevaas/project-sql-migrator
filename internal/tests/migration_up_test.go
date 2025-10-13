@@ -14,7 +14,6 @@ import (
 	dbPkg "github.com/makeevaas/project-sql-migrator/pkg/db"
 )
 
-// TestAdd проверяет функцию Add.
 func TestUpMigrations(t *testing.T) {
 	migrationText := `# The SQL in the UP section is executed when applying a migration.
 # The SQL in the DOWN section is executed when rolling back a migration.
