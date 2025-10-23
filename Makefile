@@ -12,7 +12,7 @@ build:
 	@echo "Сборка утилиты  sql-migrator"
 	@DB_CONNECTION_PATH="postgres://postgres:pwd@localhost:5432/main_db?sslmode=disable"
 	@MIGRATIONS_PATH=./migrations
-	@go build -o ./bin/migrate cmd/main.go
+	@go build -o ./bin/migrate cmd/migrate/main.go
 
 ## postgres - скачивание и запуск postgres
 .PHONY: postgres
